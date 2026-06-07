@@ -14,6 +14,8 @@ FortressAssure bridges the gap between raw security scans and executive risk rep
 
 ## 🚀 Quick Start & Installation
 
+live beta Version: https://fortressassure.vectrionx.com/
+
 To get FortressAssure running on your local machine, follow these steps:
 
 1. **Clone the Repository**:
