@@ -56,17 +56,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ data }) => {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <div className={`rounded-3xl p-8 text-white relative shadow-xl border-b-4 ${data.assessmentType === AssessmentType.SECURITY_SOLUTION ? 'bg-blue-900 border-blue-700' : 'bg-slate-900 border-slate-700'}`}>
-          <div className="flex flex-col md:flex-row justify-between items-start gap-6">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
+      <div className={`rounded-3xl p-6 md:p-8 text-white relative shadow-xl border-b-4 ${data.assessmentType === AssessmentType.SECURITY_SOLUTION ? 'bg-blue-900 border-blue-700' : 'bg-slate-900 border-slate-700'}`}>
+          <div className="flex flex-col xl:flex-row justify-between items-start gap-6">
+            <div className="w-full xl:w-auto overflow-hidden">
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-tighter ${data.assessmentType === AssessmentType.SECURITY_SOLUTION ? 'bg-blue-500 text-white' : 'bg-emerald-500 text-white'}`}>
                   {data.assessmentType} {data.solutionCategory ? `- ${data.solutionCategory}` : ''}
                 </span>
-                <h2 className="text-3xl font-bold">{data.projectName}</h2>
               </div>
-              <p className="text-slate-400 text-lg max-w-2xl font-light">Comprehensive cyber assurance and control validation for {data.systemOwner}.</p>
-              <div className="flex gap-4 mt-6">
+              <h2 className="text-2xl md:text-3xl font-bold break-words">{data.projectName}</h2>
+              <p className="text-slate-400 text-base md:text-lg max-w-2xl font-light mt-2">Comprehensive cyber assurance and control validation for {data.systemOwner}.</p>
+              <div className="flex flex-wrap gap-3 mt-6">
                 <div className="px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/5">
                   Started: {data.startDate}
                 </div>
@@ -75,8 +75,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ data }) => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-4 md:gap-8 bg-black/20 p-6 rounded-2xl border border-white/5 items-center">
-              <div className="text-center pr-4 border-r border-white/10">
+            <div className="flex flex-wrap gap-4 w-full xl:w-auto bg-black/20 p-4 md:p-6 rounded-2xl border border-white/5 items-center justify-between xl:justify-end">
+              <div className="text-center md:pr-4 md:border-r border-white/10 flex-1 md:flex-none">
                 <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Assurance Rating</span>
                 <span className={`text-4xl font-black ${overallScore > 85 ? 'text-emerald-400' : overallScore > 70 ? 'text-amber-400' : 'text-rose-400'}`}>
                   {overallRating}
@@ -96,22 +96,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ data }) => {
           </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Critical Risks</span>
-          <div className="text-3xl font-bold text-red-600 mt-1">{riskCounts[RiskLevel.CRITICAL]}</div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200">
+          <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest break-words">Critical Risks</span>
+          <div className="text-2xl md:text-3xl font-bold text-red-600 mt-1">{riskCounts[RiskLevel.CRITICAL]}</div>
         </div>
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">High Risks</span>
-          <div className="text-3xl font-bold text-orange-600 mt-1">{riskCounts[RiskLevel.HIGH]}</div>
+        <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200">
+          <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest break-words">High Risks</span>
+          <div className="text-2xl md:text-3xl font-bold text-orange-600 mt-1">{riskCounts[RiskLevel.HIGH]}</div>
         </div>
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Medium Risks</span>
-          <div className="text-3xl font-bold text-amber-500 mt-1">{riskCounts[RiskLevel.MEDIUM]}</div>
+        <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200">
+          <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest break-words">Medium Risks</span>
+          <div className="text-2xl md:text-3xl font-bold text-amber-500 mt-1">{riskCounts[RiskLevel.MEDIUM]}</div>
         </div>
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-          <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Low Risks</span>
-          <div className="text-3xl font-bold text-emerald-500 mt-1">{riskCounts[RiskLevel.LOW]}</div>
+        <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200">
+          <span className="text-slate-500 text-[10px] font-bold uppercase tracking-widest break-words">Low Risks</span>
+          <div className="text-2xl md:text-3xl font-bold text-emerald-500 mt-1">{riskCounts[RiskLevel.LOW]}</div>
         </div>
       </div>
 

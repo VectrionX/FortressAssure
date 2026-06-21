@@ -3,12 +3,12 @@ import React from 'react';
 export const DocumentationTab: React.FC = () => {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden animate-in fade-in duration-500">
-      <div className="p-8 border-b border-slate-100 bg-slate-50/50">
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">Platform Documentation & Scoring Methodology</h2>
-        <p className="text-slate-600">Understand how FortressAssure calculates risk, maturity, and translates findings into actionable assurance ratings.</p>
+      <div className="p-4 md:p-8 border-b border-slate-100 bg-slate-50/50">
+        <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-2">Platform Documentation & Scoring Methodology</h2>
+        <p className="text-slate-600 text-sm md:text-base">Understand how FortressAssure calculates risk, maturity, and translates findings into actionable assurance ratings.</p>
       </div>
       
-      <div className="p-8 space-y-12">
+      <div className="p-4 md:p-8 space-y-8 md:space-y-12">
         {/* Section 1: Assurance Ratings */}
         <section>
           <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">

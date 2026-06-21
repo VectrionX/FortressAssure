@@ -110,17 +110,17 @@ export const ReportTab: React.FC<ReportTabProps> = ({ state }) => {
     <div className="space-y-8 animate-in fade-in duration-500 pb-20 print:space-y-6">
       
       {/* 1. Executive Summary Header */}
-      <div className="bg-slate-900 text-white p-8 rounded-3xl shadow-xl border-b-4 border-indigo-500 print:bg-white print:text-black print:border-black">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div>
-            <h1 className="text-3xl font-bold mb-2">Final Assurance Report</h1>
+      <div className="bg-slate-900 text-white p-6 md:p-8 rounded-3xl shadow-xl border-b-4 border-indigo-500 print:bg-white print:text-black print:border-black">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="w-full md:w-auto">
+            <h1 className="text-2xl md:text-3xl font-bold mb-2">Final Assurance Report</h1>
             <p className="text-slate-400 text-sm max-w-2xl print:text-slate-600">
               Comprehensive cybersecurity assessment for <span className="text-white font-bold print:text-black">{state.projectName}</span>. 
               This document outlines current risk exposure, control maturity, and a prioritized roadmap for remediation.
             </p>
           </div>
-          <div className="flex items-center gap-4 bg-white/10 px-6 py-4 rounded-2xl border border-white/5 backdrop-blur-sm print:border-slate-200">
-            <div className="text-right">
+          <div className="flex w-full md:w-auto justify-between md:justify-center items-center gap-4 bg-white/10 px-4 md:px-6 py-4 rounded-2xl border border-white/5 backdrop-blur-sm print:border-slate-200">
+            <div className="text-left md:text-right">
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Assurance Rating</p>
               <p className={`text-3xl font-bold ${overallMaturity > 80 ? 'text-emerald-400' : overallMaturity > 50 ? 'text-amber-400' : 'text-rose-400'} print:text-black`}>
                 {overallMaturity >= 95 ? 'AAA' : overallMaturity >= 90 ? 'AA' : overallMaturity >= 85 ? 'A' : overallMaturity >= 80 ? 'BBB' : overallMaturity >= 70 ? 'BB' : overallMaturity >= 60 ? 'B' : 'C'}
@@ -149,8 +149,8 @@ export const ReportTab: React.FC<ReportTabProps> = ({ state }) => {
         />
         <div className="md:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col">
           <h3 className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-4">Risk Distribution Profile</h3>
-          <div className="flex items-center h-full">
-            <div className="w-1/2 h-32">
+          <div className="flex flex-col sm:flex-row items-center h-full gap-4 sm:gap-0">
+            <div className="w-full sm:w-1/2 h-40 sm:h-32">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -170,7 +170,7 @@ export const ReportTab: React.FC<ReportTabProps> = ({ state }) => {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="w-1/2 space-y-2">
+            <div className="w-full sm:w-1/2 space-y-2 px-4 sm:px-0">
               {pieData.map((d) => (
                 <div key={d.name} className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
@@ -236,20 +236,20 @@ export const ReportTab: React.FC<ReportTabProps> = ({ state }) => {
         <div className="grid grid-cols-1 gap-6">
           {roadmap.map((phase, idx) => (
             <div key={idx} className={`bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden ${phase.findings.length === 0 ? 'opacity-50 grayscale' : ''}`}>
-              <div className={`p-4 border-b border-slate-100 flex justify-between items-center ${phase.bg}`}>
+              <div className={`p-4 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 ${phase.bg}`}>
                 <div className="flex items-center gap-3">
-                  <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold bg-white shadow-sm border ${phase.color.replace('border-l-', 'text-').replace('500', '600')}`}>
+                  <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold bg-white shadow-sm border flex-shrink-0 ${phase.color.replace('border-l-', 'text-').replace('500', '600')}`}>
                     {idx + 1}
                   </span>
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-900">{phase.phase}</h3>
-                    <div className="flex items-center gap-2 mt-0.5">
-                       <span className="text-[10px] text-slate-500 font-medium bg-white/50 px-2 py-0.5 rounded border border-slate-200/50">Timeframe: {phase.timeframe}</span>
-                       <span className="text-[10px] text-slate-500 font-medium bg-white/50 px-2 py-0.5 rounded border border-slate-200/50">Priority: {phase.priority}</span>
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-bold text-slate-900 truncate">{phase.phase}</h3>
+                    <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                       <span className="text-[10px] text-slate-500 font-medium bg-white/50 px-2 py-0.5 rounded border border-slate-200/50 whitespace-nowrap">Timeframe: {phase.timeframe}</span>
+                       <span className="text-[10px] text-slate-500 font-medium bg-white/50 px-2 py-0.5 rounded border border-slate-200/50 whitespace-nowrap">Priority: {phase.priority}</span>
                     </div>
                   </div>
                 </div>
-                <span className="text-xs font-bold text-slate-600 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-100">
+                <span className="text-xs font-bold text-slate-600 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-100 whitespace-nowrap self-start sm:self-auto">
                   {phase.findings.length} Tasks
                 </span>
               </div>

@@ -66,20 +66,20 @@ export const AssessmentSetup: React.FC<AssessmentSetupProps> = ({ onInitialize, 
   return (
     <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6 font-inter">
       <form onSubmit={handleSubmit} className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-8 duration-500">
-        <div className="bg-slate-800 p-8 text-white relative">
-          <div className="flex justify-between items-start">
+        <div className="bg-slate-800 p-6 md:p-8 text-white relative">
+          <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
             <div>
-              <h1 className="text-2xl font-bold flex items-center gap-3">
-                <svg className="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+              <h1 className="text-xl md:text-2xl font-bold flex items-center gap-3">
+                <svg className="w-6 h-6 md:w-8 md:h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                 Assessment Initiation
               </h1>
-              <p className="text-slate-400 mt-2">Define the project identity and master asset inventory.</p>
+              <p className="text-slate-400 mt-2 text-sm md:text-base">Define the project identity and master asset inventory.</p>
             </div>
             {onLoadSample && (
               <button 
                 type="button" 
                 onClick={onLoadSample}
-                className="px-4 py-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold rounded-lg hover:bg-emerald-500/20 transition-all text-xs flex items-center gap-2"
+                className="w-full sm:w-auto px-4 py-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold rounded-lg hover:bg-emerald-500/20 transition-all text-xs flex items-center justify-center gap-2"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
                 Load Core Banking Sample
