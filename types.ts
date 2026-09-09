@@ -81,6 +81,7 @@ export interface Finding {
 }
 
 export interface AssessmentState {
+  mode: 'live' | 'sample';
   projectName: string;
   systemOwner: string;
   assetCriticality: Criticality;

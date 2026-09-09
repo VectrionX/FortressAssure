@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { AssessmentModule, RiskLevel } from '../types';
+import { createSampleAssessment } from './sampleAssessment';
 import {
   deriveAssessmentStatus,
   isSupportedModule,
@@ -88,5 +89,29 @@ describe('assessment status', () => {
       coveredModules: [AssessmentModule.ARCHITECTURE, AssessmentModule.VULNERABILITY],
       missingModules: [],
     });
+  });
+});
+
+describe('synthetic sample assessment', () => {
+  it('creates a deterministic, read-only synthetic demonstration state', () => {
+    expect(createSampleAssessment()).toEqual(createSampleAssessment());
+    expect(createSampleAssessment()).toMatchObject({
+      mode: 'sample',
+      isInitialized: true,
+      projectName: 'Sample Payments Gateway',
+      systemOwner: 'Synthetic Example Team',
+    });
+  });
+
+  it('uses only supported modules and clearly synthetic evidence records', () => {
+    const sample = createSampleAssessment();
+
+    expect(sample.findings.length).toBeGreaterThan(0);
+    for (const finding of sample.findings) {
+      expect(isSupportedModule(finding.module)).toBe(true);
+      expect(finding.id).toMatch(/^sample-/);
+      expect(finding.evidenceReference).toContain('SAMPLE-');
+      expect(finding.evidenceExcerpt).toContain('Synthetic');
+    }
   });
 });

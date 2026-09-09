@@ -5,6 +5,7 @@ import { Dashboard } from './components/Dashboard';
 import { DocumentationTab } from './components/DocumentationTab';
 import { ReportTab } from './components/ReportTab';
 import { RiskBadge } from './components/RiskBadge';
+import { createSampleAssessment } from './services/sampleAssessment';
 import {
   deriveAssessmentStatus,
   isSupportedModule,
@@ -16,6 +17,7 @@ import {
 type Tab = 'overview' | 'evidence' | 'ledger' | 'documentation';
 
 const emptyState: AssessmentState = {
+  mode: 'live',
   projectName: '',
   systemOwner: '',
   assetCriticality: 'MEDIUM' as AssessmentState['assetCriticality'],
@@ -48,8 +50,24 @@ const App: React.FC = () => {
 
   const status = useMemo(() => deriveAssessmentStatus(state.findings), [state.findings]);
 
-  const initialize = (data: Omit<AssessmentState, 'findings' | 'isInitialized'>) => {
-    setState({ ...data, findings: [], isInitialized: true });
+  const initialize = (data: Omit<AssessmentState, 'findings' | 'isInitialized' | 'mode'>) => {
+    setState({ ...data, mode: 'live', findings: [], isInitialized: true });
+  };
+
+  const loadSample = () => {
+    setState(createSampleAssessment());
+    setActiveTab('overview');
+    setSelectedModule(AssessmentModule.ARCHITECTURE);
+    setDraft(emptyDraft(AssessmentModule.ARCHITECTURE));
+    setFormErrors([]);
+  };
+
+  const startRealAssessment = () => {
+    setState(emptyState);
+    setActiveTab('overview');
+    setSelectedModule(AssessmentModule.ARCHITECTURE);
+    setDraft(emptyDraft(AssessmentModule.ARCHITECTURE));
+    setFormErrors([]);
   };
 
   const selectModule = (module: AssessmentModule) => {
@@ -72,12 +90,13 @@ const App: React.FC = () => {
       status: 'Recorded — human review required',
       recordedAt: new Date().toISOString(),
     };
+    if (state.mode === 'sample') return;
     setState(current => ({ ...current, findings: [...current.findings, finding] }));
     setDraft(emptyDraft(draft.module));
     setFormErrors([]);
   };
 
-  if (!state.isInitialized) return <AssessmentSetup onInitialize={initialize} />;
+  if (!state.isInitialized) return <AssessmentSetup onInitialize={initialize} onLoadSample={loadSample} />;
 
   const tabs: Array<[Tab, string]> = [
     ['overview', 'Overview'],
@@ -98,13 +117,14 @@ const App: React.FC = () => {
       </header>
 
       <main className="mx-auto w-full max-w-7xl p-4 sm:p-6 lg:p-8">
+        {state.mode === 'sample' && <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-amber-300 bg-amber-50 p-4 text-amber-950 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-xs font-black uppercase tracking-[0.16em]">Sample assessment — synthetic data — read only</p><p className="mt-1 text-sm">No assessment, scan, control validation, or evidence collection was performed.</p></div><button onClick={startRealAssessment} className="shrink-0 rounded-lg bg-slate-900 px-4 py-2 text-sm font-bold text-white hover:bg-slate-700">Start a real assessment</button></div>}
         {activeTab === 'overview' && <Dashboard data={state} status={status} onOpenEvidence={() => setActiveTab('evidence')} />}
         {activeTab === 'ledger' && <ReportTab state={state} status={status} />}
         {activeTab === 'documentation' && <DocumentationTab />}
         {activeTab === 'evidence' && <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
           <aside className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm"><p className="px-3 pb-2 pt-1 text-xs font-black uppercase tracking-[0.16em] text-slate-500">Module boundary</p><div className="grid gap-1 sm:grid-cols-2 lg:grid-cols-1">{Object.values(AssessmentModule).map(module => { const supported = isSupportedModule(module); return <button key={module} onClick={() => selectModule(module)} className={`rounded-xl p-3 text-left transition ${selectedModule === module ? 'bg-slate-900 text-white' : supported ? 'hover:bg-cyan-50' : 'cursor-default opacity-70'}`}><span className="block text-sm font-semibold">{module}</span><span className={`mt-1 block text-xs ${selectedModule === module ? 'text-slate-300' : supported ? 'text-cyan-800' : 'text-slate-500'}`}>{supported ? 'Evidence-backed human intake' : 'Not supported in MVP'}</span></button>; })}</div></aside>
           <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-            {selectedSupported ? <>
+            {state.mode === 'sample' ? <div className="rounded-2xl border border-amber-300 bg-amber-50 p-8"><p className="text-xs font-black uppercase tracking-[0.16em] text-amber-800">Read-only demonstration</p><h2 className="mt-2 text-2xl font-bold text-amber-950">Sample evidence cannot be changed</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-amber-900">The sample assessment is synthetic and exists only to demonstrate the interface. Start a real assessment to record human findings from supplied evidence.</p><button onClick={startRealAssessment} className="mt-6 rounded-xl bg-slate-900 px-5 py-3 text-sm font-bold text-white hover:bg-slate-700">Start a real assessment</button></div> : selectedSupported ? <>
               <div className="border-b border-slate-200 pb-5"><p className="text-xs font-black uppercase tracking-[0.16em] text-cyan-700">Supported evidence intake</p><h2 className="mt-1 text-2xl font-bold">{selectedModule}</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">Record a human finding tied to a specific evidence reference and excerpt. Severity is assessor-entered; FortressAssureX does not infer it or validate the underlying control.</p></div>
               <form onSubmit={submitFinding} className="mt-6 space-y-5" noValidate>
                 {formErrors.length > 0 && <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900"><p className="font-bold">This record cannot be saved yet.</p><ul className="mt-2 list-disc pl-5">{formErrors.map(error => <li key={error}>{error}</li>)}</ul></div>}
