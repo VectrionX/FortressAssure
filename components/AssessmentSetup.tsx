@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { AssessmentType, AssetType, Criticality, SystemAsset, SystemCategory } from '../types';
 
 interface AssessmentSetupProps {
-  onInitialize: (data: Omit<import('../types').AssessmentState, 'findings' | 'isInitialized'>) => void;
+  onInitialize: (data: Omit<import('../types').AssessmentState, 'findings' | 'isInitialized' | 'mode'>) => void;
+  onLoadSample: () => void;
 }
 
-export const AssessmentSetup: React.FC<AssessmentSetupProps> = ({ onInitialize }) => {
+export const AssessmentSetup: React.FC<AssessmentSetupProps> = ({ onInitialize, onLoadSample }) => {
   const [scopeRaw, setScopeRaw] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -90,6 +91,7 @@ export const AssessmentSetup: React.FC<AssessmentSetupProps> = ({ onInitialize }
           </label>
 
           <button type="submit" className="w-full rounded-xl bg-cyan-700 px-5 py-3 font-bold text-white transition hover:bg-cyan-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">Create evidence register</button>
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center"><p className="text-sm font-semibold text-slate-800">Want to explore the workspace first?</p><p className="mt-1 text-sm text-slate-600">Load a read-only synthetic demonstration. No assessment is performed and no evidence is collected.</p><button type="button" onClick={onLoadSample} className="mt-3 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-bold text-slate-800 hover:border-cyan-700 hover:text-cyan-800">Load sample assessment</button></div>
         </div>
       </form>
     </div>

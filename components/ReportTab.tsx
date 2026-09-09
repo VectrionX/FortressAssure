@@ -11,12 +11,12 @@ interface ReportTabProps {
 export const ReportTab: React.FC<ReportTabProps> = ({ state, status }) => (
   <div className="space-y-6 pb-10">
     <section className="rounded-3xl border border-slate-700 bg-slate-900 p-6 text-white shadow-xl sm:p-8">
-      <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-300">Evidence ledger</p>
-      <h1 className="mt-2 text-2xl font-bold sm:text-3xl">Human findings register</h1>
-      <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">This is not an assurance report. It is a local, browser-session record of human-entered observations and their stated evidence. It is not a control validation or compliance attestation.</p>
+      <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-300">{state.mode === 'sample' ? 'Sample evidence ledger — synthetic data' : 'Evidence ledger'}</p>
+      <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{state.mode === 'sample' ? 'Illustrative findings register' : 'Human findings register'}</h1>
+      <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">{state.mode === 'sample' ? 'These are synthetic demonstration records only. No assessment, evidence collection, control validation, or assurance was performed.' : 'This is not an assurance report. It is a local, browser-session record of human-entered observations and their stated evidence. It is not a control validation or compliance attestation.'}</p>
     </section>
 
-    <section className="rounded-2xl border border-amber-300 bg-amber-50 p-5 text-amber-950"><p className="text-xs font-black uppercase tracking-[0.16em]">Current status</p><h2 className="mt-1 text-xl font-bold">{status.label}</h2><p className="mt-2 text-sm leading-6">{status.detail}</p><p className="mt-3 text-xs font-semibold">Supported boundary: {SUPPORTED_MVP_MODULES.join(' · ')}</p></section>
+    <section className="rounded-2xl border border-amber-300 bg-amber-50 p-5 text-amber-950"><p className="text-xs font-black uppercase tracking-[0.16em]">{state.mode === 'sample' ? 'Sample notice' : 'Current status'}</p><h2 className="mt-1 text-xl font-bold">{state.mode === 'sample' ? 'Not an assessment result' : status.label}</h2><p className="mt-2 text-sm leading-6">{state.mode === 'sample' ? 'The records below are illustrative and must not be treated as results for a real customer, system, or environment.' : status.detail}</p><p className="mt-3 text-xs font-semibold">Supported boundary: {SUPPORTED_MVP_MODULES.join(' · ')}</p></section>
 
     <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
       <div className="border-b border-slate-200 p-5 sm:p-6"><h2 className="text-lg font-bold text-slate-900">Evidence-linked findings</h2><p className="mt-1 text-sm text-slate-600">{state.findings.length} record{state.findings.length === 1 ? '' : 's'} in this browser session.</p></div>
